@@ -2,7 +2,7 @@ version: '2'
 services:
   todolist:
     container_name: todolist
-    image: todolist
+    image: alamdocker1/todolist-demo:latest
     # restart: always
     env_file: .env
     command: gunicorn todolist:app -w 2 -b :8000
@@ -13,8 +13,8 @@ services:
 
   migration:
     container_name: migration
-    build: .
-    image: todolist
+    # build: .
+    image: alamdocker1/todolist-demo:latest
     env_file: .env
     command: flask db upgrade
     depends_on:
