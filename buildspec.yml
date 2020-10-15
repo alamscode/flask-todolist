@@ -17,6 +17,12 @@ phases:
   post_build:
     commands:
       - echo Build completed on `date`
+      - echo Running Unit tests...
+      - docker-compose up -d
+      - docker ps -a
+      - docker exec todolist pip3 install -r test-requirements.txt
+      - docker exec todolist python3 -m unittest discover
+      - docker-compose down
       - echo Pushing the Docker images...
       - docker login --username alamdocker1 --password $DOCKER_PASSWORD
       - docker push $REPOSITORY_URI:latest
