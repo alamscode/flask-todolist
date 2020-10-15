@@ -17,6 +17,11 @@ phases:
   post_build:
     commands:
       - echo Build completed on `date`
+      - echo Running Unit tests...
+      - docker run -d --name flask-todolist $REPOSITORY_URI:$IMAGE_TAG
+      - docker ps -a
+      - docker exec flask-todolist python3 -m unittest discover
+      - docker rm -f flask-todolist
       - echo Pushing the Docker images...
       - docker login --username alamdocker1 --password $DOCKER_PASSWORD
       - docker push $REPOSITORY_URI:latest
