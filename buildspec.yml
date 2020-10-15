@@ -14,6 +14,12 @@ phases:
       - echo Building the Docker image...
       - docker build -t $REPOSITORY_URI:latest . --no-cache
       - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
+  unittest:
+    commands:
+      - docker run -d --name flask-todolist $REPOSITORY_URI:$IMAGE_TAG
+      - docker ps -a
+      - docker exec flask-todolist python3 -m unittest discover
+      - docker rm -f flask-todolist
   post_build:
     commands:
       - echo Build completed on `date`
